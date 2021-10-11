@@ -3,6 +3,7 @@ package hu.domein;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "adres")
 public class Adres {
     @Id
     @Column(name = "adres_id")
@@ -12,10 +13,8 @@ public class Adres {
     private String straat;
     private String woonplaats;
 
-//    github
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reiziger_id")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
     public Adres(int id, String postcode, String huisnumer, String straat, String woonplaats) {

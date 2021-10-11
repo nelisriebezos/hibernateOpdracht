@@ -6,29 +6,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "ov_chipkaart")
 public class OVChipkaart {
     @Id
     @Column(name = "kaart_nummer")
     private int kaartNummer;
+    @Column(name = "geldig_tot")
     private Date geldigTot;
     private int klasse;
     private int saldo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(
             name = "reiziger_id",
-            referencedColumnName = "reiziger_id")
+            referencedColumnName = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
     @ManyToMany
     @JoinTable(
             name = "ov_chipkaart_product",
-            joinColumns = @JoinColumn(name = "kaart_nummer"),
-            inverseJoinColumns = @JoinColumn(name = "product_nummer")
+            joinColumns = {@JoinColumn(name = "kaart_nummer")},
+            inverseJoinColumns = {@JoinColumn(name = "product_nummer")}
     )
     private List<Product> productList = new ArrayList<>();
-
-//    fdasfdsa
 
     public OVChipkaart(int kaartNummer, Date geldigTot, int klasse, int saldo) {
         this.kaartNummer = kaartNummer;

@@ -8,6 +8,7 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "reiziger")
 public class Reiziger {
     @Id
     @Column(name = "reiziger_id")

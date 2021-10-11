@@ -3,10 +3,12 @@ package hu.domein;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
     private int product_nummer;
@@ -14,7 +16,7 @@ public class Product {
     private String beschrijving;
     private int prijs;
 
-    @ManyToMany(mappedBy = "producten")
+    @ManyToMany(mappedBy = "productList")
     private List<OVChipkaart> ovChipkaartList = new ArrayList<>();
 
     public Product(int product_nummer, String naam, String beschrijving, int prijs) {
