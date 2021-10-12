@@ -33,6 +33,8 @@ public class Main {
         return factory.openSession();
     }
 
+//    testing
+    
     public static void main(String[] args) throws SQLException {
         testFetchAll();
     }
