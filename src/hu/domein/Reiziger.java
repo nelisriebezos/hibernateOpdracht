@@ -2,6 +2,7 @@ package hu.domein;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +10,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "reiziger")
-public class Reiziger {
+public class Reiziger implements Serializable {
     @Id
     @Column(name = "reiziger_id")
     private int id;
+
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
 
-    @OneToOne(mappedBy = "reiziger")
+    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.MERGE)
     private Adres adres;
 
     @OneToMany(mappedBy = "reiziger")

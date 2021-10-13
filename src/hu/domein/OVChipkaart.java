@@ -1,13 +1,14 @@
 package hu.domein;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "ov_chipkaart")
-public class OVChipkaart {
+public class OVChipkaart implements Serializable {
     @Id
     @Column(name = "kaart_nummer")
     private int kaartNummer;

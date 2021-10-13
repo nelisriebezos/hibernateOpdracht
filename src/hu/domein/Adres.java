@@ -1,10 +1,11 @@
 package hu.domein;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "adres")
-public class Adres {
+public class Adres implements Serializable {
     @Id
     @Column(name = "adres_id")
     private int id;
@@ -17,12 +18,13 @@ public class Adres {
     @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
-    public Adres(int id, String postcode, String huisnumer, String straat, String woonplaats) {
+    public Adres(int id, String postcode, String huisnumer, String straat, String woonplaats, Reiziger r) {
         this.id = id;
         this.postcode = postcode;
         this.huisnummer = huisnumer;
         this.straat = straat;
         this.woonplaats = woonplaats;
+        this.reiziger = r;
     }
 
     public Adres() {}
@@ -74,6 +76,15 @@ public class Adres {
     public void setWoonplaats(String woonplaats) {
         this.woonplaats = woonplaats;
     }
+
+    public String getHuisnummer() {
+        return huisnummer;
+    }
+
+    public void setHuisnummer(String huisnummer) {
+        this.huisnummer = huisnummer;
+    }
+
 
     @Override
     public String toString() {

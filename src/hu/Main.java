@@ -1,5 +1,11 @@
 package hu;
 
+import hu.dao.AdresDaoHibernate;
+import hu.dao.OVChipkaartDaoHibernate;
+import hu.dao.ProductDaoHibernate;
+import hu.dao.ReizigerDaoHibernate;
+import hu.domein.Adres;
+import hu.domein.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,9 +40,10 @@ public class Main {
     }
 
 //    testing
-    
+
     public static void main(String[] args) throws SQLException {
-        testFetchAll();
+//        testFetchAll();
+        testDao();
     }
 
     /**
@@ -58,5 +65,23 @@ public class Main {
         } finally {
             session.close();
         }
+    }
+
+    private static void testDao() {
+        AdresDaoHibernate adao = new AdresDaoHibernate(getSession());
+        ReizigerDaoHibernate rdao = new ReizigerDaoHibernate(getSession());
+        OVChipkaartDaoHibernate odao = new OVChipkaartDaoHibernate(getSession());
+        ProductDaoHibernate pdao = new ProductDaoHibernate(getSession());
+
+        testReizigerDao(adao, rdao);
+    }
+
+    private static void testReizigerDao(AdresDaoHibernate adao, ReizigerDaoHibernate rdao) {
+        rdao.setAdao(adao);
+
+        Reiziger reiziger = new Reiziger(6, "test", "test", "test", java.sql.Date.valueOf("2002-12-03"));
+        Adres adres = new Adres(6, "test", "test", "test", "test", reiziger);
+
+        rdao.save(reiziger);
     }
 }
