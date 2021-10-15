@@ -5,6 +5,8 @@ import hu.dao.OVChipkaartDaoHibernate;
 import hu.dao.ProductDaoHibernate;
 import hu.dao.ReizigerDaoHibernate;
 import hu.domein.Adres;
+import hu.domein.OVChipkaart;
+import hu.domein.Product;
 import hu.domein.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -73,15 +75,113 @@ public class Main {
         OVChipkaartDaoHibernate odao = new OVChipkaartDaoHibernate(getSession());
         ProductDaoHibernate pdao = new ProductDaoHibernate(getSession());
 
-        testReizigerDao(adao, rdao);
+        testAdresDao(adao);
+        testReizigerDao(rdao);
+        testOVChipDao(odao);
+        testProductDao(pdao);
     }
 
-    private static void testReizigerDao(AdresDaoHibernate adao, ReizigerDaoHibernate rdao) {
-        rdao.setAdao(adao);
+    private static void testAdresDao(AdresDaoHibernate adao) {
+        Adres adres = new Adres(6, "test", "test", "test", "test");
+        Reiziger reiziger = new Reiziger(6, "", "", "", java.sql.Date.valueOf("2002-12-12"));
+        adres.setReiziger(reiziger);
 
-        Reiziger reiziger = new Reiziger(6, "test", "test", "test", java.sql.Date.valueOf("2002-12-03"));
-        Adres adres = new Adres(6, "test", "test", "test", "test", reiziger);
+        for (Adres a : adao.findAll()) {
+            System.out.println(a);
+        }
 
+        System.out.println("\nlengte lijst voor save: " + adao.findAll().size());
+        adao.save(adres);
+        System.out.println("lengte lijst na save: " + adao.findAll().size());
+
+        adres.setPostcode("brrrrrrr");
+        adao.save(adres);
+        System.out.println("\nVind geupdate adres met id:");
+        System.out.println(adao.findById(6));
+
+        System.out.println("\nvind met reiziger:");
+        System.out.println(adao.findbyReiziger(reiziger));
+
+        System.out.println("\nvoor delete: " + adao.findAll().size());
+        adao.delete(adres);
+        System.out.println("na delete: " + adao.findAll().size());
+    }
+
+    private static void testReizigerDao(ReizigerDaoHibernate rdao) {
+        Reiziger reiziger = new Reiziger(6, "", "", "", java.sql.Date.valueOf("2002-12-12"));
+
+        for (Reiziger r : rdao.findAll()) {
+            System.out.println(r);
+        }
+
+        System.out.println("\nlengte lijst voor save: " + rdao.findAll().size());
         rdao.save(reiziger);
+        System.out.println("lengte lijst na save: " + rdao.findAll().size());
+
+        reiziger.setVoorletters("gfdsagfdsa");
+        rdao.save(reiziger);
+        System.out.println("\nVind geupdate adres met id:");
+        System.out.println(rdao.findById(6));
+
+        System.out.println("\nvind met gdatum:");
+        System.out.println(rdao.findByGbdatum("2002-12-12"));
+
+        System.out.println("\nvoor delete: " + rdao.findAll().size());
+        rdao.delete(reiziger);
+        System.out.println("na delete: " + rdao.findAll().size());
+    }
+
+    private static void testOVChipDao(OVChipkaartDaoHibernate odao) {
+        Reiziger reiziger = new Reiziger(5, "", "", "", java.sql.Date.valueOf("2002-12-12"));
+        OVChipkaart ovChipkaart = new OVChipkaart(900000, java.sql.Date.valueOf("2002-12-12"), 2, 100);
+        ovChipkaart.setReiziger(reiziger);
+
+        for (OVChipkaart o : odao.findAll()) {
+            System.out.println(o);
+        }
+
+        System.out.println("\nlengte lijst voor save: " + odao.findAll().size());
+        odao.save(ovChipkaart);
+        System.out.println("lengte lijst na save: " + odao.findAll().size());
+
+        ovChipkaart.setKlasse(3);
+        odao.update(ovChipkaart);
+        System.out.println("\nVind geupdate OVchipkaart met id:");
+        System.out.println(odao.findById(900000));
+
+        System.out.println("\nvind met reiziger:");
+        System.out.println(odao.findByReiziger(reiziger));
+
+        System.out.println("\nvoor delete: " + odao.findAll().size());
+        odao.delete(ovChipkaart);
+        System.out.println("na delete: " + odao.findAll().size());
+    }
+
+    private static void testProductDao(ProductDaoHibernate pdao) {
+        Product product = new Product(7, "fdas", "fdas", 80);
+        OVChipkaart ovChipkaart = new OVChipkaart(90537, java.sql.Date.valueOf("2002-12-12"), 2, 100);
+        ovChipkaart.addProduct(product);
+
+        for (Product p : pdao.findAll()) {
+            System.out.println(p);
+        }
+
+        System.out.println("\nlengte lijst voor save: " + pdao.findAll().size());
+        pdao.save(product);
+        System.out.println("lengte lijst na save: " + pdao.findAll().size());
+
+        product.setBeschrijving("testiong");
+        pdao.update(product);
+        System.out.println("\nVind geupdate OVchipkaart met id:");
+        System.out.println(pdao.findById(7));
+
+        System.out.println("\nvind met ovchipkaart:");
+        System.out.println(pdao.findByOvchipkaart(ovChipkaart));
+
+        System.out.println("\nvoor delete: " + pdao.findAll().size());
+        pdao.delete(product);
+        System.out.println("na delete: " + pdao.findAll().size());
+
+
     }
 }

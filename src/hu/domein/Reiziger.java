@@ -20,7 +20,7 @@ public class Reiziger implements Serializable {
     private String achternaam;
     private Date geboortedatum;
 
-    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.ALL)
     private Adres adres;
 
     @OneToMany(mappedBy = "reiziger")
@@ -110,8 +110,12 @@ public class Reiziger implements Serializable {
 
     @Override
     public String toString() {
-        return "Reiziger: " +
+        return "Reiziger{" +
                 "id=" + id +
-                ", adres=" + adres;
+                ", voorletters='" + voorletters + '\'' +
+                ", geboortedatum=" + geboortedatum +
+                ", adres=" + adres +
+                ", ovChipkaartList=" + ovChipkaartList +
+                '}';
     }
 }

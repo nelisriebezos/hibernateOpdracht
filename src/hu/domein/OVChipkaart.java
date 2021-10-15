@@ -112,8 +112,10 @@ public class OVChipkaart implements Serializable {
     @Override
     public String toString() {
         return "OVChipkaart{" +
-                "reiziger=" + reiziger +
-                ", kaartNummer=" + kaartNummer +
+                "kaartNummer=" + kaartNummer +
+                ", klasse=" + klasse +
+                ", saldo=" + saldo +
+                ", reiziger=" + reiziger.getNaam() +
                 ", productList=" + productList +
                 '}';
     }

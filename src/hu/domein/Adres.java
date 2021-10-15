@@ -14,17 +14,16 @@ public class Adres implements Serializable {
     private String straat;
     private String woonplaats;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reiziger_id", nullable = false)
     private Reiziger reiziger;
 
-    public Adres(int id, String postcode, String huisnumer, String straat, String woonplaats, Reiziger r) {
+    public Adres(int id, String postcode, String huisnumer, String straat, String woonplaats) {
         this.id = id;
         this.postcode = postcode;
         this.huisnummer = huisnumer;
         this.straat = straat;
         this.woonplaats = woonplaats;
-        this.reiziger = r;
     }
 
     public Adres() {}
